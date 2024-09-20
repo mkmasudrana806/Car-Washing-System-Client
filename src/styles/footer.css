@@ -1,0 +1,86 @@
+.footer {
+  background-color: white;
+  padding-top: 48px;
+}
+.footer .footer-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 3.5rem;
+  padding: 16px;
+}
+
+.footer-row .footer-col h4 {
+  font-size: 1.5rem;
+  text-decoration: underline;
+  text-decoration-color: tomato;
+  text-decoration-thickness: 3px;
+  text-underline-offset: 8px;
+}
+
+.footer-col .links {
+  margin-top: 20px;
+}
+
+.footer-col .links li {
+  list-style: none;
+  margin-bottom: 10px;
+}
+
+.footer-col .links li a {
+  text-decoration: none;
+}
+
+.footer-col .links li a:hover {
+  color: tomato;
+  font: bold;
+
+  text-decoration: underline;
+}
+
+.footer-col p {
+  margin: 20px 0;
+  max-width: 300px;
+}
+
+.footer-col form {
+  display: flex;
+}
+
+.footer-col input {
+  border-radius: 6px;
+  background: none;
+  outline: none;
+  padding-left: 10px;
+}
+
+.footer-col .icons {
+  display: flex;
+  margin-top: 30px;
+  gap: 30px;
+  cursor: pointer;
+}
+
+.footer-col .icons i {
+  color: #afb6c7;
+}
+
+.footer-col .icons i:hover {
+  color: #fff;
+}
+
+@media (max-width: 768px) {
+  .footer {
+    position: relative;
+    bottom: 0;
+    left: 0;
+    transform: none;
+    width: 100%;
+    border-radius: 0;
+  }
+
+  .footer .footer-row {
+    padding: 20px;
+    gap: 1rem;
+  }
+}

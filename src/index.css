@@ -1,0 +1,33 @@
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+  font-size: 1rem;
+}
+
+#root {
+  padding: 0px 16px;
+  height: 100vh;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+a,
+label,
+span,
+input[type="checkbox"] {
+  /* color: rgba(0, 0, 0, 0.753); */
+  color: rgba(0, 0, 0, 0.7);
+}
+
+/* 1200px container for all layouts */
+.layout-container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
