@@ -76,7 +76,7 @@ const Footer = () => {
             helpful tips, and exclusive offers.
           </p>
           <form action="#">
-            <Input placeholder="Your email address" />;
+            <Input placeholder="Your email address" />
             <Button type="primary">Subscribe</Button>
           </form>
           <div className="icons">
