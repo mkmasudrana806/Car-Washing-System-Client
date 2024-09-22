@@ -5,7 +5,7 @@ import demoImg from "../../assets/images/frontImg.jpg";
 const FeaturedServiceCard = () => {
   const featured = true;
   return (
-    <ProductCardContainer className="product">
+    <ServiceCardContainer className="service">
       <div className="img-container">
         <img src={demoImg} alt="" />
       </div>
@@ -13,7 +13,7 @@ const FeaturedServiceCard = () => {
         <NavLink to={`/services?category=${"pro"}`} className="category">
           category of service
         </NavLink>
-        <NavLink to={`/service/${"_id"}`} className="title">
+        <NavLink to={`/services/${"_id"}`} className="title">
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Aspernatur
           rerum est porro officia nam fugiat ipsa sit quos officiis facere.
         </NavLink>
@@ -21,14 +21,14 @@ const FeaturedServiceCard = () => {
       {featured && (
         <FeaturedButton className="featured-btn">Featured</FeaturedButton>
       )}
-    </ProductCardContainer>
+    </ServiceCardContainer>
   );
 };
 
 export default FeaturedServiceCard;
 
-// product container
-const ProductCardContainer = styled.div`
+// service container
+const ServiceCardContainer = styled.div`
   position: relative;
   max-width: 300px;
   min-width: 250px;

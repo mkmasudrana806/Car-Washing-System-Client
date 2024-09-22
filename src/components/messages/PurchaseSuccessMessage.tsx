@@ -37,12 +37,12 @@ const PurchaseSuccessMessage = () => {
               <NavLink key={"my-orders"} to={"/user/my-orders"}>
                 <Button type="primary">My Orders</Button>
               </NavLink>,
-              <NavLink key={"buy-again"} to={"/products"}>
+              <NavLink key={"buy-again"} to={"/services"}>
                 <Button>Buy Again</Button>
               </NavLink>,
             ]
           : [
-              <NavLink key={"buy-again"} to={"/products"}>
+              <NavLink key={"buy-again"} to={"/services"}>
                 <Button>Buy now</Button>
               </NavLink>,
             ]

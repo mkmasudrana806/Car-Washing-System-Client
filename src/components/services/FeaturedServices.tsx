@@ -16,7 +16,7 @@ import FeaturedServiceCard from "./FeaturedServiceCard";
 
 const FeaturedServices = () => {
   return (
-    <FeaturedProduct>
+    <FeaturedService>
       <div className="container-title">
         <h1>Featured Services</h1>
         <NavLink to={"/services"}>
@@ -47,13 +47,13 @@ const FeaturedServices = () => {
           <FeaturedServiceCard />
         </SwiperSlide>
       </Swiper>
-    </FeaturedProduct>
+    </FeaturedService>
   );
 };
 
 export default FeaturedServices;
 
-const FeaturedProduct = styled.div`
+const FeaturedService = styled.div`
   margin-top: 48px;
   .container-title {
     margin-bottom: 16px;
@@ -64,7 +64,7 @@ const FeaturedProduct = styled.div`
       font-size: 2.5rem;
     }
   }
-  .products-container {
+  .services-container {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 16px;

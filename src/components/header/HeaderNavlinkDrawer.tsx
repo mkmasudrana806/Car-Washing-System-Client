@@ -35,8 +35,8 @@ const HeaderNavlinkDrawer = ({
           {" "}
           <NavLink to={"/"}>Home</NavLink>
         </Menu.Item>
-        <Menu.Item key="products">
-          <NavLink to={"/products"}>Products</NavLink>
+        <Menu.Item key="services">
+          <NavLink to={"/services"}>Services</NavLink>
         </Menu.Item>
         {user?.role && (
           <Menu.Item key="dashboard">

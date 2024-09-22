@@ -15,7 +15,7 @@ const ServiceCard = ({ service }: { service: TService }) => {
         <NavLink to={`/services?category=${category}`} className="category">
           {category}
         </NavLink>
-        <NavLink to={`/service/${_id}`} className="title">
+        <NavLink to={`/services/${_id}`} className="title">
           {name}
         </NavLink>
         <div className="service-cart-footer">
@@ -23,7 +23,7 @@ const ServiceCard = ({ service }: { service: TService }) => {
             <h1 style={{ color: "tomato", marginBottom: "4px" }}>${price}</h1>
             <Rate disabled defaultValue={4} />
           </div>
-          <NavLink to={`/service/${_id}`} className="details">
+          <NavLink to={`/services/${_id}`} className="details">
             <ArrowRightOutlined />
           </NavLink>
         </div>

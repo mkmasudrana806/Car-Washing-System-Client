@@ -6,7 +6,7 @@ const overlayStyle: CSSProperties = {
   top: 0,
   left: 0,
   width: "100%",
-  height: "99%",
+  height: "100%",
   background:
     "linear-gradient(to right, rgba(0, 0, 0, 0.719), rgba(0, 0, 0, 0))",
   zIndex: 1,
@@ -30,7 +30,7 @@ const BannerTwo = () => {
         </h1>
         <h2 className="sign-painted">Premium Car Wash Services</h2>
         <p>Enjoy top-quality car wash services whenever you need them.</p>
-        <NavLink to={"/products"}>
+        <NavLink to={"/services"}>
           {" "}
           <ShopNowBtn className="book-btn">Book Now</ShopNowBtn>
         </NavLink>

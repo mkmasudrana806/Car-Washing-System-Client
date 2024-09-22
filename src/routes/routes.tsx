@@ -12,6 +12,7 @@ import AdminRoute from "./AdminProtectedRoute";
 import UserRoute from "./UserProtectedRoute";
 import UnauthorizedAccess from "../components/messages/UnauthorizedAccess";
 import ServicesPage from "../pages/public/ServicesPage";
+import ServiceDetailsPage from "../pages/public/ServiceDetailsPage";
 
 export const router = createBrowserRouter([
   {
@@ -25,6 +26,10 @@ export const router = createBrowserRouter([
       {
         path: "services",
         element: <ServicesPage />,
+      },
+      {
+        path: "services/:id",
+        element: <ServiceDetailsPage />,
       },
       {
         path: "about-us",
