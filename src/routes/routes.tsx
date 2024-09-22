@@ -11,6 +11,7 @@ import DashboardLayout from "../components/layout/DashboardLayout";
 import AdminRoute from "./AdminProtectedRoute";
 import UserRoute from "./UserProtectedRoute";
 import UnauthorizedAccess from "../components/messages/UnauthorizedAccess";
+import ServicesPage from "../pages/public/ServicesPage";
 
 export const router = createBrowserRouter([
   {
@@ -20,6 +21,10 @@ export const router = createBrowserRouter([
       {
         index: true,
         element: <Homepage />,
+      },
+      {
+        path: "services",
+        element: <ServicesPage />,
       },
       {
         path: "about-us",
