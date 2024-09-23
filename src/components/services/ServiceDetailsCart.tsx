@@ -34,6 +34,7 @@ const ServiceDetailsCart: React.FC<Props> = ({ serviceInfo }) => {
   const handleDateChange = (date: Dayjs | null) => {
     if (date) {
       setSelectedDate(date);
+      setSelectedSlot(null);
     }
   };
 

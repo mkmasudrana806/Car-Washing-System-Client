@@ -5,14 +5,22 @@ import ErrorComponent from "../../messages/ErrorComponent";
 import LoadingComponent from "../../messages/LoadingComponent";
 import ServiceCard from "../ServiceCard";
 import styled from "styled-components";
-
-const RelatedServices = (category: { category: string }) => {
+type Props = {
+  name: string;
+};
+const RelatedServices: React.FC<Props> = ({ name }) => {
   const {
-    data: services,
+    data: allServices,
     isLoading,
     isFetching,
     isError,
-  } = useLoadAllServicesQuery(category);
+  } = useLoadAllServicesQuery({});
+
+  const services = allServices?.data?.filter((service: TService) =>
+    name
+      .split(" ")
+      .some((word) => service.name.toLowerCase().includes(word.toLowerCase()))
+  );
 
   // decide what to render
   let content = null;
@@ -21,15 +29,10 @@ const RelatedServices = (category: { category: string }) => {
     content = <LoadingComponent />;
   } else if (!isLoading && isError) {
     content = <ErrorComponent />;
-  } else if (!isLoading && !isError && services?.data?.length === 0) {
+  } else if (!isLoading && !isError && services?.length === 0) {
     content = <DataNotFound />;
-  } else if (
-    !isLoading &&
-    !isError &&
-    services?.data &&
-    services?.data?.length > 0
-  ) {
-    content = services?.data?.map((service: TService) => (
+  } else if (!isLoading && !isError && services?.length > 0) {
+    content = services?.map((service: TService) => (
       <ServiceCard key={service?._id} service={service} />
     ));
   }
@@ -90,22 +93,35 @@ const RelatedServicesContainer = styled.div`
   }
 
   // responsive
-  @media screen and (min-width: 324px) and (max-width: 576px) {
+  @media screen and (max-width: 576px) {
     display: block;
     .service {
       min-width: 100%;
       max-width: 100%;
       height: fit-content;
+      .img-container {
+        width: 150px;
+        img {
+          width: 100%;
+        }
+      }
       display: flex;
       margin-bottom: 16px;
       .service-cart-footer {
+        width: fit-content;
         div:nth-child(1) {
           display: flex;
-          column-gap: 32px;
+          column-gap: 16px;
         }
         .details {
           display: none;
         }
+      }
+
+      .featured-btn {
+        width: fit-content;
+        left: 10px;
+        top: 10px;
       }
     }
   }

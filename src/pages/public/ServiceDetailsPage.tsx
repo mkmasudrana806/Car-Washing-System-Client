@@ -2,10 +2,7 @@ import { useParams } from "react-router-dom";
 import LoadingComponent from "../../components/messages/LoadingComponent";
 import ErrorComponent from "../../components/messages/ErrorComponent";
 import DataNotFound from "../../components/messages/DataNotFound";
-import {
- 
-  useGetServiceWithSlotsQuery,
-} from "../../redux/features/services/serviceApi";
+import { useGetServiceWithSlotsQuery } from "../../redux/features/services/serviceApi";
 import ServiceDetailsCart from "../../components/services/ServiceDetailsCart";
 import RelatedServices from "../../components/services/relatedServices/RelatedServices";
 import ServiceReviewComments from "../../components/services/productReviewComment/ServiceReviewComments";
@@ -20,8 +17,6 @@ const ServiceDetailsPage = () => {
     isLoading,
   } = useGetServiceWithSlotsQuery(id);
 
- 
-
   let content = null;
   // component to render
   if (isLoading || isFetching) {
@@ -34,7 +29,7 @@ const ServiceDetailsPage = () => {
     content = (
       <>
         <ServiceDetailsCart serviceInfo={service?.data} />
-        <RelatedServices category={service?.data?.category} />
+        <RelatedServices name={service?.data.name} />
         <ServiceReviewComments serviceId={id!} />
       </>
     );
