@@ -69,8 +69,8 @@ const ServiceFiltersHeader = ({ showDrawer }: TProps) => {
           onChange={handleSortServices}
           popupMatchSelectWidth={false}
           options={[
-            { value: "name", label: "Ascending(Price)" },
-            { value: "-name", label: "Descending(Price)" },
+            { value: "name", label: "Ascending(name)" },
+            { value: "-name", label: "Descending(name)" },
           ]}
         />
       </div>

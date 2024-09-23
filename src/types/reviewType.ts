@@ -9,7 +9,7 @@ export type TReview = {
     };
     _id: string;
   };
-  productId: string;
+  serviceId: string;
   rating: number;
   comment?: string;
   createdAt: string;

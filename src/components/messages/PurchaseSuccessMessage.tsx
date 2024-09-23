@@ -23,8 +23,8 @@ const PurchaseSuccessMessage = () => {
       status={orderId ? "success" : "warning"}
       title={
         orderId
-          ? "Successfully Purchased Your Products"
-          : "You have not purchased any product now!"
+          ? "Successfully Purchased Your services"
+          : "You have not purchased any service now!"
       }
       subTitle={
         orderId

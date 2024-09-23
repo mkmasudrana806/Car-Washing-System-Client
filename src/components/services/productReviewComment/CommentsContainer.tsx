@@ -8,7 +8,7 @@ import { useAppSelector } from "../../../redux/hooks";
 import Reviews from "./Reviews";
 
 type TReviewsProps = {
-  productId: string;
+  serviceId: string;
   reviews: TReview[];
   isLoading: boolean;
   isError: boolean;
@@ -16,7 +16,7 @@ type TReviewsProps = {
 
 // comments component
 const CommentsContainer = ({
-  productId,
+  serviceId,
   reviews,
   isLoading,
   isError,
@@ -38,13 +38,13 @@ const CommentsContainer = ({
 
   return (
     <div>
-      <p>Get specific details about this products from customers who own it</p>
+      <p>Get specific details about this services from customers who own it</p>
       <Divider />
       {/* review form  */}
       {user?.userId && reviews?.length !== 0 && !isReview && (
-        <ReviewForm productId={productId} />
+        <ReviewForm serviceId={serviceId} />
       )}
-      {isReview && <ReviewForm productId={productId} />}
+      {isReview && <ReviewForm serviceId={serviceId} />}
 
       {/* when no reviews, show empty message  */}
       {reviews?.length === 0 && !isReview && (
@@ -53,7 +53,7 @@ const CommentsContainer = ({
           imageStyle={{ height: 60 }}
           description={
             <p>
-              This product has no reviews yet. Be the first one to write a
+              This service has no reviews yet. Be the first one to write a
               review
             </p>
           }

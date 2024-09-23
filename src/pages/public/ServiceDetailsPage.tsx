@@ -2,7 +2,10 @@ import { useParams } from "react-router-dom";
 import LoadingComponent from "../../components/messages/LoadingComponent";
 import ErrorComponent from "../../components/messages/ErrorComponent";
 import DataNotFound from "../../components/messages/DataNotFound";
-import { useGetServiceByIdQuery } from "../../redux/features/services/serviceApi";
+import {
+ 
+  useGetServiceWithSlotsQuery,
+} from "../../redux/features/services/serviceApi";
 import ServiceDetailsCart from "../../components/services/ServiceDetailsCart";
 import RelatedServices from "../../components/services/relatedServices/RelatedServices";
 import ServiceReviewComments from "../../components/services/productReviewComment/ServiceReviewComments";
@@ -15,7 +18,9 @@ const ServiceDetailsPage = () => {
     isError,
     isFetching,
     isLoading,
-  } = useGetServiceByIdQuery(id);
+  } = useGetServiceWithSlotsQuery(id);
+
+ 
 
   let content = null;
   // component to render
@@ -28,7 +33,7 @@ const ServiceDetailsPage = () => {
   } else if (service?.data) {
     content = (
       <>
-        <ServiceDetailsCart />
+        <ServiceDetailsCart serviceInfo={service?.data} />
         <RelatedServices category={service?.data?.category} />
         <ServiceReviewComments serviceId={id!} />
       </>

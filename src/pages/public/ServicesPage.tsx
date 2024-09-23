@@ -1,19 +1,14 @@
 import { Drawer, Pagination, PaginationProps } from "antd";
 import styled from "styled-components";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import LoadingComponent from "../../components/messages/LoadingComponent";
 import ErrorComponent from "../../components/messages/ErrorComponent";
 import DataNotFound from "../../components/messages/DataNotFound";
 import { RootState } from "../../redux/store";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
-import { useSearchParams } from "react-router-dom";
 
 import { TService } from "../../types/serviceTypes";
-import {
-  addCategoryFilters,
-  setLimit,
-  setPage,
-} from "../../redux/features/services/filterSlice";
+import { setLimit, setPage } from "../../redux/features/services/filterSlice";
 import { useLoadAllServicesQuery } from "../../redux/features/services/serviceApi";
 import ServiceFiltersSidebar from "../../components/services/ServiceFiltersSidebar";
 import ServiceFiltersHeader from "../../components/services/ServiceFilterHeader";
@@ -34,12 +29,13 @@ const itemRender: PaginationProps["itemRender"] = (
   return originalElement;
 };
 
-// service page
+// ----------- service page component
 const ServicesPage = () => {
   // redux
   const dispatch = useAppDispatch();
-  const { searchTerm, priceRange, selectedCategories, sort, limit, page } =
-    useAppSelector((state: RootState) => state.filters);
+  const { searchTerm, priceRange, sort, limit, page } = useAppSelector(
+    (state: RootState) => state.filters
+  );
 
   const {
     data: services,
@@ -48,17 +44,13 @@ const ServicesPage = () => {
   } = useLoadAllServicesQuery({
     searchTerm,
     priceRange,
-    selectedCategories,
     sort,
     limit,
     page,
   });
 
   // react
-  const [searchParams] = useSearchParams();
-  const category = searchParams.get("category");
   const [open, setOpen] = useState(false);
-
   const showDrawer = () => {
     setOpen(true);
   };
@@ -67,14 +59,16 @@ const ServicesPage = () => {
     setOpen(false);
   };
 
-  useEffect(() => {
-    if (category) {
-      dispatch(addCategoryFilters(category));
+  // ---------- handle pagination changes
+  const handlePaginationChange = (currentPage: number, pageSize?: number) => {
+    dispatch(setPage(currentPage));
+    if (pageSize && pageSize !== limit) {
+      dispatch(setLimit(pageSize));
     }
-  }, [category, dispatch]);
+  };
 
+  // --------- decide what to render
   let content = null;
-  // component to render
   if (isLoading) {
     content = <LoadingComponent />;
   } else if (!isLoading && isError) {
@@ -91,12 +85,6 @@ const ServicesPage = () => {
       <ServiceCard key={service?._id} service={service} />
     ));
   }
-  const handlePaginationChange = (currentPage: number, pageSize?: number) => {
-    dispatch(setPage(currentPage));
-    if (pageSize && pageSize !== limit) {
-      dispatch(setLimit(pageSize));
-    }
-  };
 
   return (
     <ServicePage>

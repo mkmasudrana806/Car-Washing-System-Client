@@ -7,14 +7,10 @@ import HeaderNavlinks from "./HeaderNavlinks";
 import HeaderNavlinkDrawer from "./HeaderNavlinkDrawer";
 import UserProfileDrawer from "./UserProfileDrawer";
 import styled from "styled-components";
-import { useGetAllUsersQuery } from "../../redux/features/users/userApi";
 const { Header } = Layout;
 
 const HeaderComponent = () => {
-  // redux
-  const { data } = useGetAllUsersQuery(undefined);
-  console.log("all users data", data);
-
+ 
   // react
   const [isDrawerVisible, setIsDrawerVisible] = useState(false);
   const [openProfile, setOpenProfile] = useState(false);

@@ -1,46 +1,46 @@
 import styled from "styled-components";
-import { Button, Card, Col, DatePicker, message, Row } from "antd";
-import demoImg from "../../assets/images/companyTeam.jpg";
+import { Button, Card, Col, DatePicker, message, Row, Tag } from "antd";
 import { useState } from "react";
-
+import { ClockCircleOutlined } from "@ant-design/icons";
 import dayjs, { Dayjs } from "dayjs";
+import { TService } from "../../types/serviceTypes";
+import { TSlot } from "../../types/slotTypes";
 
-// List of available time slots
-const timeSlots = [
-  { _id: 1, time: "08-12", booked: false },
-  { _id: 2, time: "12-16", booked: true },
-  { _id: 3, time: "16-20", booked: false },
-];
-
+type Props = {
+  serviceInfo: TService & { slots: TSlot[] };
+};
 // ---------- service details carts component
-const ServiceDetailsCart = () => {
+const ServiceDetailsCart: React.FC<Props> = ({ serviceInfo }) => {
   // ---------- redux
-
   // --------- react
+  const { slots, ...service } = serviceInfo;
 
-  // const { category, description, name, price, serviceImgUrl } = service;
+  const { duration, description, name, serviceImgUrl } = service as TService;
   const [selectedDate, setSelectedDate] = useState<Dayjs | null>(dayjs());
   const [selectedSlot, setSelectedSlot] = useState<any>(null);
 
+  // Filter slots based on the selected date
+  const filteredSlots = slots.filter((slot) => {
+    if (!selectedDate) return false;
+    return slot.date === selectedDate.format("YYYY-MM-DD");
+  });
+
   // Disable past dates
   const disabledDate = (current: Dayjs) => {
-    return current && current < dayjs().endOf("day");
+    return current < dayjs().startOf("day");
   };
 
   // Date selection handler
   const handleDateChange = (date: Dayjs | null) => {
     if (date) {
       setSelectedDate(date);
-      message.info(`Selected Date: ${date.format("YYYY-MM-DD")}`);
     }
   };
 
   // Time slot selection handler
-  const handleSlotSelect = (slot: any) => {
-    if (!slot.booked) {
-      setSelectedSlot(slot);
-      message.success(`Selected Slot: ${slot.time}`);
-    }
+  const handleSlotSelect = (slot: TSlot) => {
+    setSelectedSlot(slot);
+    message.success(`Selected slot: ${slot.startTime}-${slot.endTime}`, 1);
   };
 
   // Book service handler
@@ -56,38 +56,27 @@ const ServiceDetailsCart = () => {
     }
   };
 
-  // // ---------- handle add to cart service
-  // const handleAddToCart = (service: TService) => {
-  //   const cartIitem = {
-  //     _id: service._id,
-  //     name: service.name,
-  //     serviceImgUrl: service.serviceImgUrl,
-  //     price: service.price,
-  //   };
-  // };
-
-  // // ---------- handle buy service
-  // const handleBuyService = (service: TService) => {
-  //   const cartIitem = {
-  //     _id: service._id,
-  //     name: service.name,
-  //     serviceImgUrl: service.serviceImgUrl,
-  //     price: service.price,
-  //   };
-
-  //   message.success("service added");
-  //   navigate("/user/carts");
-  // };
   return (
     <ServiceContainer>
       <ServiceDetails>
         {/* service image  */}
         <div className="service-img-container">
-          <img src={demoImg} alt="" />
+          <img src={serviceImgUrl} alt="" />
         </div>
         {/* Service information  */}
         <div className="service-info">
-          <h2>Service Name</h2>
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+            }}
+          >
+            <h2>{name}</h2>
+            <Tag icon={<ClockCircleOutlined />} color="default">
+              {duration} min
+            </Tag>
+          </div>
 
           {/* DatePicker Section */}
 
@@ -101,18 +90,18 @@ const ServiceDetailsCart = () => {
           {/* Time Slots Section */}
           <Card style={{ marginTop: "16px" }} title="Select a Time Slot">
             <Row gutter={[8, 8]}>
-              {timeSlots.map((slot) => (
+              {filteredSlots?.map((slot) => (
                 <Col key={slot._id}>
                   <Button
-                    disabled={slot.booked}
+                    disabled={slot.isBooked === "booked"}
                     onClick={() => handleSlotSelect(slot)}
                     style={{
                       backgroundColor:
                         selectedSlot?._id === slot._id ? "#1890ff" : "#f0f0f0",
-                      color: slot.booked ? "#d9d9d9" : "#000",
+                      color: slot.isBooked === "booked" ? "#d9d9d9" : "#000",
                     }}
                   >
-                    {slot.time}
+                    {slot.startTime} - {slot.endTime}
                   </Button>
                 </Col>
               ))}
@@ -131,11 +120,7 @@ const ServiceDetailsCart = () => {
           </Button>
         </div>
       </ServiceDetails>
-      <div className="service-description">
-        Lorem ipsum dolor sit, amet consectetur adipisicing elit. Facilis,
-        similique. Facere explicabo architecto inventore esse atque asperiores
-        incidunt, perferendis accusamus?
-      </div>
+      <div className="service-description">{description}</div>
     </ServiceContainer>
   );
 };

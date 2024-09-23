@@ -1,24 +1,26 @@
 import { NavLink } from "react-router-dom";
 import styled from "styled-components";
-import demoImg from "../../assets/images/frontImg.jpg";
+import { TService } from "../../types/serviceTypes";
 
-const FeaturedServiceCard = () => {
-  const featured = true;
+type Props = {
+  service: TService;
+};
+
+const FeaturedServiceCard: React.FC<Props> = ({ service }) => {
   return (
     <ServiceCardContainer className="service">
       <div className="img-container">
-        <img src={demoImg} alt="" />
+        <img src={service?.serviceImgUrl} alt="" />
       </div>
       <div className="info">
-        <NavLink to={`/services?category=${"pro"}`} className="category">
-          category of service
+        <NavLink to={`/services/${service?._id}`} className="name">
+          {service?.name}
         </NavLink>
-        <NavLink to={`/services/${"_id"}`} className="title">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Aspernatur
-          rerum est porro officia nam fugiat ipsa sit quos officiis facere.
+        <NavLink to={`/services/${service?._id}`} className="title">
+          {service?.description}
         </NavLink>
       </div>
-      {featured && (
+      {service?.featured && (
         <FeaturedButton className="featured-btn">Featured</FeaturedButton>
       )}
     </ServiceCardContainer>
@@ -34,6 +36,7 @@ const ServiceCardContainer = styled.div`
   min-width: 250px;
   box-shadow: rgba(0, 0, 0, 0.05) 0px 0px 0px 1px;
   text-align: center;
+  min-height: 350px;
   .img-container {
     width: 100%;
     overflow: hidden;
@@ -46,7 +49,7 @@ const ServiceCardContainer = styled.div`
   }
   .info {
     padding: 10px;
-    .category {
+    .name {
       font-weight: 600;
       &:hover {
         text-decoration: underline;

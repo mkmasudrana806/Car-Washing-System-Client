@@ -13,7 +13,6 @@ const userApi = baseApi.injectEndpoints({
     // get all users
     getAllUsers: builder.query({
       query: () => {
-        console.log("getAllUsers redux called");
         return {
           url: "/users",
         };

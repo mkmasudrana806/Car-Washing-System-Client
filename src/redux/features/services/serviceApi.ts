@@ -13,17 +13,10 @@ const serviceApi = baseApi.injectEndpoints({
       },
       invalidatesTags: ["services"],
     }),
+
     // --------- load all services
     loadAllServices: builder.query({
-      query: ({
-        searchTerm,
-        priceRange,
-        selectedCategories,
-        sort,
-        limit,
-        page,
-        ...others
-      }) => {
+      query: ({ searchTerm, priceRange, sort, limit, page, ...others }) => {
         const params = new URLSearchParams();
         // Search term
         if (searchTerm) {
@@ -33,12 +26,6 @@ const serviceApi = baseApi.injectEndpoints({
         if (priceRange) {
           params.append("minPrice", priceRange[0].toString());
           params.append("maxPrice", priceRange[1].toString());
-        }
-        // Categories
-        if (selectedCategories?.length > 0) {
-          selectedCategories?.forEach((category: string) =>
-            params.append("category", encodeURIComponent(category))
-          );
         }
         // Sorting
         if (sort) {
@@ -62,6 +49,16 @@ const serviceApi = baseApi.injectEndpoints({
         return { url: `/services?${params.toString()}` };
       },
       providesTags: ["services"],
+    }),
+
+    // ---------- service with slots belong to this service
+    getServiceWithSlots: builder.query({
+      query: (id) => ({
+        url: `/services/service-slots/${id}`,
+      }),
+      providesTags: (_result, _error, arg) => [
+        { type: "service-slots", id: arg.id },
+      ],
     }),
 
     // ---------- load single service
@@ -100,6 +97,7 @@ const serviceApi = baseApi.injectEndpoints({
 export const {
   useCreateServiceMutation,
   useLoadAllServicesQuery,
+  useGetServiceWithSlotsQuery,
   useGetServiceByIdQuery,
   useDeleteServiceMutation,
   useUpdateServiceMutation,

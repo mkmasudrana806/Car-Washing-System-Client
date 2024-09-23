@@ -1,29 +1,17 @@
 import styled from "styled-components";
-import { Slider, Checkbox, Input, Row, Col, Button } from "antd";
+import { Slider, Input, Row, Col, Button } from "antd";
 import { ClearOutlined } from "@ant-design/icons";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import { RootState } from "../../redux/store";
 import {
-  addCategoryFilters,
-  removeCategoryFilters,
   resetFilters,
   setPriceFilterRange,
 } from "../../redux/features/services/filterSlice";
 
-import { useLoadAllServicesQuery } from "../../redux/features/services/serviceApi";
-import { TService } from "../../types/serviceTypes";
-
 const ServiceFiltersSidebar = () => {
   // redux
   const dispatch = useAppDispatch();
-  const { priceRange, selectedCategories } = useAppSelector(
-    (state: RootState) => state.filters
-  );
-  const { data: services } = useLoadAllServicesQuery({});
-  // make unique categories string array
-  const uniqueCategories = [
-    ...new Set(services?.data?.map((service: TService) => service.category)),
-  ] as string[];
+  const { priceRange } = useAppSelector((state: RootState) => state.filters);
 
   // Handle when input changes
   const handleInputChange = (type: "start" | "end", value: number) => {
@@ -45,15 +33,6 @@ const ServiceFiltersSidebar = () => {
 
   const handleSliderChange = (newRange: number[]) => {
     dispatch(setPriceFilterRange([newRange[0], newRange[1]]));
-  };
-
-  // Update category filter
-  const handleCategoryChange = (category: string, isChecked: boolean) => {
-    if (isChecked) {
-      dispatch(addCategoryFilters(category));
-    } else {
-      dispatch(removeCategoryFilters(category));
-    }
   };
 
   // handle clear all filters
@@ -104,21 +83,6 @@ const ServiceFiltersSidebar = () => {
             />
           </Col>
         </Row>
-      </div>
-
-      {/* category filters  */}
-      <h1 style={{ fontSize: "1.5rem", marginTop: "32px" }}>Category</h1>
-      <hr />
-      <div className="category-filter">
-        {uniqueCategories.map((category: string, index) => (
-          <Checkbox
-            key={index}
-            checked={selectedCategories.includes(category)}
-            onChange={(e) => handleCategoryChange(category, e.target.checked)}
-          >
-            {category}
-          </Checkbox>
-        ))}
       </div>
     </FiltersSide>
   );

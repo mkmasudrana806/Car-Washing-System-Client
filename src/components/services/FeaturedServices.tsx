@@ -11,10 +11,14 @@ import "swiper/css/pagination";
 // import required modules
 import { FreeMode, Pagination } from "swiper/modules";
 import { NavLink } from "react-router-dom";
-
 import FeaturedServiceCard from "./FeaturedServiceCard";
+import { TService } from "../../types/serviceTypes";
 
-const FeaturedServices = () => {
+type Props = {
+  services: TService[];
+};
+
+const FeaturedServices: React.FC<Props> = ({ services }) => {
   return (
     <FeaturedService>
       <div className="container-title">
@@ -36,16 +40,22 @@ const FeaturedServices = () => {
         modules={[FreeMode, Pagination]}
         className="mySwiper"
       >
-        <SwiperSlide
-          key={1}
-          style={{
-            minWidth: "300px",
-            maxWidth: "300px",
-            height: "fit-content",
-          }}
-        >
-          <FeaturedServiceCard />
-        </SwiperSlide>
+        {services?.length > 0 &&
+          services.slice(0, 7).map(
+            (service) =>
+              service?.featured && (
+                <SwiperSlide
+                  key={service?._id}
+                  style={{
+                    minWidth: "300px",
+                    maxWidth: "300px",
+                    height: "fit-content",
+                  }}
+                >
+                  <FeaturedServiceCard key={service._id} service={service} />
+                </SwiperSlide>
+              )
+          )}
       </Swiper>
     </FeaturedService>
   );

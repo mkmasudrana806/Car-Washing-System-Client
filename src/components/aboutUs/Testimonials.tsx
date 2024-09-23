@@ -24,7 +24,7 @@ const testimonials = [
     id: 2,
     name: "Liam Johnson",
     feedback:
-      "Great quality products and the customer service was top-notch. Highly recommend for anyone serious about fitness.",
+      "Great quality services and the customer service was top-notch. Highly recommend for anyone serious about fitness.",
     rating: 4,
     imageUrl:
       "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSV9TPf969-KugRbgV6ZVrTCuciNZJg8uAozA&s",
