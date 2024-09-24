@@ -5,6 +5,9 @@ import { ClockCircleOutlined } from "@ant-design/icons";
 import dayjs, { Dayjs } from "dayjs";
 import { TService } from "../../types/serviceTypes";
 import { TSlot } from "../../types/slotTypes";
+import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { setCurrentBooking } from "../../redux/features/bookings/bookingSlice";
 
 type Props = {
   serviceInfo: TService & { slots: TSlot[] };
@@ -12,9 +15,10 @@ type Props = {
 // ---------- service details carts component
 const ServiceDetailsCart: React.FC<Props> = ({ serviceInfo }) => {
   // ---------- redux
+  const dispatch = useDispatch();
   // --------- react
   const { slots, ...service } = serviceInfo;
-
+  const navigate = useNavigate();
   const { duration, description, name, serviceImgUrl } = service as TService;
   const [selectedDate, setSelectedDate] = useState<Dayjs | null>(dayjs());
   const [selectedSlot, setSelectedSlot] = useState<any>(null);
@@ -46,15 +50,8 @@ const ServiceDetailsCart: React.FC<Props> = ({ serviceInfo }) => {
 
   // Book service handler
   const handleBooking = () => {
-    if (selectedDate && selectedSlot) {
-      message.success(
-        `Service booked on ${selectedDate.format("YYYY-MM-DD")} during ${
-          selectedSlot.time
-        }`
-      );
-    } else {
-      message.error("Please select a date and time slot.");
-    }
+    dispatch(setCurrentBooking({ slot: selectedSlot }));
+    navigate("/user/booking");
   };
 
   return (

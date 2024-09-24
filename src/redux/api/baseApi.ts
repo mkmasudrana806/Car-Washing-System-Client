@@ -32,7 +32,7 @@ const customBaseQueryWithRefreshToken: BaseQueryFn<
 
   // result return an object with {error or data, meta}
   if (result.error?.status === 401) {
-    const res = await fetch("http://localhost:5000/api", {
+    const res = await fetch("http://localhost:5000/api/auth/refresh-token", {
       method: "POST",
       credentials: "include",
     });
@@ -58,14 +58,7 @@ const customBaseQueryWithRefreshToken: BaseQueryFn<
 const baseApi = createApi({
   reducerPath: "baseApi",
   baseQuery: customBaseQueryWithRefreshToken,
-  tagTypes: [
-    "services",
-    "service",
-    "service-slots",
-    "bookings",
-    "reviews",
-    "review",
-  ],
+  tagTypes: ["products", "product", "reviews", "review", "orders"],
   endpoints: () => ({}),
 });
 

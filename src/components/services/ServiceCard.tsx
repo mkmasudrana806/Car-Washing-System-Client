@@ -1,31 +1,29 @@
-import { ArrowRightOutlined } from "@ant-design/icons";
-import { Rate } from "antd";
+import { ClockCircleOutlined } from "@ant-design/icons";
 import { NavLink } from "react-router-dom";
 import styled from "styled-components";
 import { TService } from "../../types/serviceTypes";
+import { Tag } from "antd";
 
 const ServiceCard = ({ service }: { service: TService }) => {
-  const { _id, category, name, price, featured, serviceImgUrl } = service;
+  const { _id, description, duration, name, price, featured, serviceImgUrl } =
+    service;
   return (
     <ServiceCardContainer className="service">
       <div className="img-container">
         <img src={serviceImgUrl} alt="" />
       </div>
       <div className="info">
-        <NavLink to={`/services?category=${category}`} className="category">
-          {category}
-        </NavLink>
-        <NavLink to={`/services/${_id}`} className="title">
+        <NavLink to={`/services/${_id}`} className="category">
           {name}
         </NavLink>
+        <NavLink to={`/services/${_id}`} className="title">
+          {description}
+        </NavLink>
         <div className="service-cart-footer">
-          <div>
-            <h1 style={{ color: "tomato", marginBottom: "4px" }}>${price}</h1>
-            <Rate disabled defaultValue={4} />
-          </div>
-          <NavLink to={`/services/${_id}`} className="details">
-            <ArrowRightOutlined />
-          </NavLink>
+          <h1 style={{ color: "tomato", marginBottom: "4px" }}>${price}</h1>
+          <Tag icon={<ClockCircleOutlined />} color="default">
+            {duration} min
+          </Tag>
         </div>
       </div>
       {featured && (
@@ -66,8 +64,8 @@ const ServiceCardContainer = styled.div`
     .title {
       font-size: 1.3rem;
       display: -webkit-box;
-      -webkit-line-clamp: 2; /* Number of lines */
-      line-clamp: 2;
+      -webkit-line-clamp: 3; /* Number of lines */
+      line-clamp: 3;
       -webkit-box-orient: vertical;
       overflow: hidden;
       text-overflow: ellipsis;

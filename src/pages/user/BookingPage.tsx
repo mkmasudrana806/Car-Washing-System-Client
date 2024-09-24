@@ -1,12 +1,13 @@
 import styled from "styled-components";
 import demoImg from "../../assets/images/companyTeam.jpg";
-import { Button, Form, Input } from "antd";
+import { Button, Form, Input, message } from "antd";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 
 import { useGetUserProfileQuery } from "../../redux/features/users/userApi";
 import { useEffect } from "react";
 import { loadUserProfile } from "../../redux/features/users/userSlice";
 import { useNavigate } from "react-router-dom";
+import { useMakeAnBookingMutation } from "../../redux/features/bookings/bookingApi";
 const layout = {
   labelCol: { span: 8 },
   wrapperCol: { span: 16 },
@@ -15,37 +16,66 @@ const layout = {
 // ---------- service details carts component
 const BookingPage = () => {
   // redux
+  const selectedSlot = useAppSelector(
+    (state) => state.bookings.currentBooking?.slot
+  );
   const { data: userProfile } = useGetUserProfileQuery(undefined);
   const dispatch = useAppDispatch();
   const user = useAppSelector((state) => state.user.profile);
+  const [makeAnBooking] = useMakeAnBookingMutation();
 
   // react
   const navigate = useNavigate();
   const [form] = Form.useForm();
+
   // load user profile to store
   useEffect(() => {
     if (userProfile) {
       dispatch(loadUserProfile(userProfile.data));
       if (user) {
         form.setFieldsValue({
-          name: `${user?.name?.firstName} ${user?.name?.middleName} ${user?.name?.lastName}`,
+          name: `${user?.name?.firstName} ${user?.name?.lastName} ( ${user?.name?.middleName} )`,
           email: user?.email,
-          contact: user?.contact,
+          selectedTime: `${selectedSlot?.startTime} - ${selectedSlot?.endTime}`,
+          vehicleType: "car",
+          vehicleBrand: "car",
+          vehicleModel: "car",
+          manufacturingYear: "324234",
+          registrationPlate: "car",
         });
       }
     }
-  }, [userProfile, form, user, dispatch]);
+  }, [userProfile, form, user, dispatch, selectedSlot]);
 
   // handle pay now button
-  const handlePayNow = () => {
-    navigate("/user/purchase-success");
+  const handlePayNow = async (values: any) => {
+    // make a new booking object
+    const newBooking = {
+      slot: selectedSlot?._id,
+      service: selectedSlot?.service,
+      vehicleInfo: {
+        vehicleType: values.vehicleType,
+        vehicleBrand: values.vehicleBrand,
+        vehicleModel: values.vehicleModel,
+        manufacturingYear: Number(values.manufacturingYear),
+        registrationPlate: values.registrationPlate,
+      },
+    };
+
+    const result = await makeAnBooking(newBooking);
+    
+    if (result.error) {
+      message.error(result.error.data.message);
+    }
   };
   return (
     <BookingPageContainer>
       {/* service image  */}
       <div className="service-img-container">
         <img src={demoImg} alt="" />
-        <TimeSlot className="featured-btn">07-10</TimeSlot>
+        <TimeSlot className="featured-btn">
+          {selectedSlot?.startTime} - {selectedSlot?.endTime}
+        </TimeSlot>
       </div>
       {/* Service information  */}
       <div className="service-info">
@@ -53,6 +83,7 @@ const BookingPage = () => {
           {...layout}
           form={form}
           name="control-hooks"
+          onFinish={handlePayNow}
           style={{ maxWidth: 600 }}
         >
           {/* name field */}
@@ -64,14 +95,56 @@ const BookingPage = () => {
             <Input readOnly />
           </Form.Item>
           {/* selected time */}
-          <Form.Item name="contact" label="Selected time">
+          <Form.Item name="selectedTime" label="Selected time">
             <Input readOnly />
           </Form.Item>
-          <div className="paynow-btn">
-            <Button onClick={handlePayNow} shape="round" type="primary">
-              Pay Now
-            </Button>
-          </div>
+          {/* vehicleType */}
+          <Form.Item
+            name="vehicleType"
+            label="Vehicle type"
+            rules={[{ required: true }]}
+          >
+            <Input />
+          </Form.Item>
+          {/* vehicleBrand */}
+          <Form.Item
+            name="vehicleBrand"
+            label="Vehicle brand"
+            rules={[{ required: true }]}
+          >
+            <Input />
+          </Form.Item>
+          {/* vehicleModel */}
+          <Form.Item
+            name="vehicleModel"
+            label="Vehicle model"
+            rules={[{ required: true }]}
+          >
+            <Input />
+          </Form.Item>
+          {/* manufacturalYear */}
+          <Form.Item
+            name="manufacturingYear"
+            label="Manufacturing year"
+            rules={[{ required: true }]}
+          >
+            <Input type="number" />
+          </Form.Item>
+          {/* registrationPlate*/}
+          <Form.Item
+            name="registrationPlate"
+            label="Fegistration plate"
+            rules={[{ required: true }]}
+          >
+            <Input />
+          </Form.Item>
+          <Form.Item>
+            <div className="paynow-btn">
+              <Button htmlType="submit" shape="round" type="primary">
+                Pay Now
+              </Button>
+            </div>
+          </Form.Item>
         </Form>
       </div>
     </BookingPageContainer>
@@ -90,13 +163,14 @@ const BookingPageContainer = styled.div`
   gap: 16px;
   .service-img-container {
     position: relative;
-    max-height: 300px;
+    max-height: 500px;
     object-fit: cover;
     overflow: hidden;
   }
   .service-img-container,
   .service-info {
     width: 50%;
+    height: 100%;
   }
   .paynow-btn {
     display: flex;

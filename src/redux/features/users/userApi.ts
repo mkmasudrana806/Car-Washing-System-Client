@@ -10,6 +10,7 @@ const userApi = baseApi.injectEndpoints({
         };
       },
     }),
+    
     // get all users
     getAllUsers: builder.query({
       query: () => {

@@ -8,12 +8,19 @@ const onChange = (key: string) => {
   console.log(key);
 };
 
-const ServiceReviewComments = ({ serviceId }: { serviceId: string }) => {
+type Props = {
+  serviceId: string;
+};
+// ----------- ServiceReviewComments component
+const ServiceReviewComments: React.FC<Props> = ({ serviceId }) => {
   const {
     data: reviews,
     isLoading,
     isError,
   } = useGetAllReviewsQuery({ serviceId });
+  
+  
+ 
 
   const items: TabsProps["items"] = [
     {
