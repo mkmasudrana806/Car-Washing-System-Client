@@ -5,6 +5,7 @@ export type TCurrentBooking = {
   service: string;
   slot: TSlot;
   vehicleInfo: TVehicleInfo;
+  amount: number;
 };
 
 export type TVehicleInfo = {

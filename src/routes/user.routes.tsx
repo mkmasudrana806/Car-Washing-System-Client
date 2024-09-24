@@ -1,3 +1,4 @@
+import PaymentFaildMsg from "../components/messages/PaymentFaildMsg";
 import PurchaseSuccessMessage from "../components/messages/PurchaseSuccessMessage";
 import BookingPage from "../pages/user/BookingPage";
 import UserDashboard from "../pages/user/UserDashboard";
@@ -34,7 +35,11 @@ export const userPaths = [
     ],
   },
   {
-    path: "purchase-success/:id",
+    path: "purchase-success",
     element: <PurchaseSuccessMessage />,
+  },
+  {
+    path: "purchase-faild",
+    element: <PaymentFaildMsg />,
   },
 ];

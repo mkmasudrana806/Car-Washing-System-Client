@@ -2,12 +2,12 @@ import styled from "styled-components";
 import demoImg from "../../assets/images/companyTeam.jpg";
 import { Button, Form, Input, message } from "antd";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
-
 import { useGetUserProfileQuery } from "../../redux/features/users/userApi";
 import { useEffect } from "react";
 import { loadUserProfile } from "../../redux/features/users/userSlice";
-import { useNavigate } from "react-router-dom";
 import { useMakeAnBookingMutation } from "../../redux/features/bookings/bookingApi";
+import { loadStripe } from "@stripe/stripe-js";
+
 const layout = {
   labelCol: { span: 8 },
   wrapperCol: { span: 16 },
@@ -16,8 +16,8 @@ const layout = {
 // ---------- service details carts component
 const BookingPage = () => {
   // redux
-  const selectedSlot = useAppSelector(
-    (state) => state.bookings.currentBooking?.slot
+  const currentBooking = useAppSelector(
+    (state) => state.bookings.currentBooking
   );
   const { data: userProfile } = useGetUserProfileQuery(undefined);
   const dispatch = useAppDispatch();
@@ -25,7 +25,6 @@ const BookingPage = () => {
   const [makeAnBooking] = useMakeAnBookingMutation();
 
   // react
-  const navigate = useNavigate();
   const [form] = Form.useForm();
 
   // load user profile to store
@@ -36,7 +35,7 @@ const BookingPage = () => {
         form.setFieldsValue({
           name: `${user?.name?.firstName} ${user?.name?.lastName} ( ${user?.name?.middleName} )`,
           email: user?.email,
-          selectedTime: `${selectedSlot?.startTime} - ${selectedSlot?.endTime}`,
+          selectedTime: `${currentBooking?.slot?.startTime} - ${currentBooking?.slot?.endTime}`,
           vehicleType: "car",
           vehicleBrand: "car",
           vehicleModel: "car",
@@ -45,14 +44,18 @@ const BookingPage = () => {
         });
       }
     }
-  }, [userProfile, form, user, dispatch, selectedSlot]);
+  }, [userProfile, form, user, dispatch, currentBooking?.slot]);
 
-  // handle pay now button
+  // ---------- handle pay now button ----------------------
   const handlePayNow = async (values: any) => {
+    const stripe = await loadStripe(
+      import.meta.env.VITE_APP_STRIPE_PUBLISHABLE_KEY
+    );
+
     // make a new booking object
     const newBooking = {
-      slot: selectedSlot?._id,
-      service: selectedSlot?.service,
+      slot: currentBooking?.slot?._id,
+      service: currentBooking?.slot?.service,
       vehicleInfo: {
         vehicleType: values.vehicleType,
         vehicleBrand: values.vehicleBrand,
@@ -60,12 +63,16 @@ const BookingPage = () => {
         manufacturingYear: Number(values.manufacturingYear),
         registrationPlate: values.registrationPlate,
       },
+      amount: currentBooking?.amount,
     };
 
-    const result = await makeAnBooking(newBooking);
-    
-    if (result.error) {
-      message.error(result.error.data.message);
+    const session: any = await makeAnBooking(newBooking);
+    if (session.error) {
+      message.error(session.error.data.message);
+    } else {
+      stripe?.redirectToCheckout({
+        sessionId: session.data.data,
+      });
     }
   };
   return (
@@ -74,7 +81,7 @@ const BookingPage = () => {
       <div className="service-img-container">
         <img src={demoImg} alt="" />
         <TimeSlot className="featured-btn">
-          {selectedSlot?.startTime} - {selectedSlot?.endTime}
+          {currentBooking?.slot?.startTime} - {currentBooking?.slot?.endTime}
         </TimeSlot>
       </div>
       {/* Service information  */}

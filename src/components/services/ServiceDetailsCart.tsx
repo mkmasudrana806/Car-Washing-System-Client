@@ -50,7 +50,7 @@ const ServiceDetailsCart: React.FC<Props> = ({ serviceInfo }) => {
 
   // Book service handler
   const handleBooking = () => {
-    dispatch(setCurrentBooking({ slot: selectedSlot }));
+    dispatch(setCurrentBooking({ slot: selectedSlot, amount: service.price }));
     navigate("/user/booking");
   };
 
