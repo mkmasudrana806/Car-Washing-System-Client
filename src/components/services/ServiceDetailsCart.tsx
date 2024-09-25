@@ -99,7 +99,9 @@ const ServiceDetailsCart: React.FC<Props> = ({ serviceInfo }) => {
                       color: slot.isBooked === "booked" ? "#d9d9d9" : "#000",
                     }}
                   >
-                    {slot.startTime} - {slot.endTime}
+                    {slot.isBooked === "booked"
+                      ? "booked"
+                      : `${slot.startTime} - ${slot.endTime}`}
                   </Button>
                 </Col>
               ))}

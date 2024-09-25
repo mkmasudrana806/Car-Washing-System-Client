@@ -7,6 +7,7 @@ import { useEffect } from "react";
 import { loadUserProfile } from "../../redux/features/users/userSlice";
 import { useMakeAnBookingMutation } from "../../redux/features/bookings/bookingApi";
 import { loadStripe } from "@stripe/stripe-js";
+import { SerializedError } from "@reduxjs/toolkit";
 
 const layout = {
   labelCol: { span: 8 },
@@ -66,13 +67,20 @@ const BookingPage = () => {
       amount: currentBooking?.amount,
     };
 
-    const session: any = await makeAnBooking(newBooking);
-    if (session.error) {
-      message.error(session.error.data.message);
-    } else {
+    const session = await makeAnBooking(newBooking);
+    // Check if the response is an error
+    if ((session as SerializedError).message) {
+      // Handle the error case
+      message.error(
+        (session as SerializedError).message || "Something went wrong"
+      );
+    } else if ("data" in session) {
+      // Handle the successful case
       stripe?.redirectToCheckout({
         sessionId: session.data.data,
       });
+    } else {
+      message.error("Unexpected response format");
     }
   };
   return (

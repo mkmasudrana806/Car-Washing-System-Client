@@ -1,4 +1,6 @@
+import { TService } from "./serviceTypes";
 import { TSlot } from "./slotTypes";
+import { TUser } from "./userType";
 
 // current booking type
 export type TCurrentBooking = {
@@ -32,6 +34,17 @@ export type TBooking = {
   user: string;
   service: string;
   slot: string;
+  vehicleInfo: TVehicleInfo;
+  date: Date;
+  paymentId: string;
+  isDeleted: boolean;
+};
+
+export type TAllBookings = {
+  _id: string;
+  user: TUser;
+  service: TService;
+  slot: TSlot;
   vehicleInfo: TVehicleInfo;
   date: Date;
   paymentId: string;

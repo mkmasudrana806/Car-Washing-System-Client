@@ -16,6 +16,7 @@ import userSlice from "./features/users/userSlice";
 import filterSlice from "./features/services/filterSlice";
 import reviewsSlice from "./features/reviews/reviewsSlice";
 import bookingSlice from "./features/bookings/bookingSlice";
+import ServiceSlice from "./features/services/ServiceSlice";
 
 // redux persistor
 const persistConfig = {
@@ -34,6 +35,7 @@ const store = configureStore({
     filters: filterSlice,
     reviews: reviewsSlice,
     bookings: bookingSlice,
+    services: ServiceSlice,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
