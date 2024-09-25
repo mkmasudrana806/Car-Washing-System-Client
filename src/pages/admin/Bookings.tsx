@@ -210,6 +210,7 @@ const Bookings: React.FC<Props> = ({ bookings }) => {
         width={50}
         sorter={(a, b) => a.price - b.price}
         sortDirections={["descend", "ascend"]}
+        render={(price) => <p>${price}</p>}
       />
       {/* user email  */}
       <Table.Column

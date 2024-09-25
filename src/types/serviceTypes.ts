@@ -7,4 +7,6 @@ export type TService = {
   price: number;
   duration: number;
   isDeleted: boolean;
+  createdAt: string;
+  updatedAt: string;
 };

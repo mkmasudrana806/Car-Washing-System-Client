@@ -46,7 +46,7 @@ const AdminDashboard = () => {
               style={{
                 display: "flex",
                 alignItems: "end",
-                columnGap: "4px",
+                columnGap: "8px",
               }}
             >
               <p>{bookings?.data?.length > 0 ? bookings?.data?.length : 0} </p>
