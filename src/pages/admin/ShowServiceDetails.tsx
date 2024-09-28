@@ -14,7 +14,7 @@ const ShowServiceDetails = () => {
 
   // format createdAt, updatedAt into YYYY-MM-DD format
   const createdAt = dayjs(showServiceData?.createdAt).format("YYYY-MM-DD");
-  const updatedAt = dayjs(showServiceData?.createdAt).format("YYYY-MM-DD");
+  const updatedAt = dayjs(showServiceData?.updatedAt).format("YYYY-MM-DD");
 
   // --------- watch the showServiceData
   useEffect(() => {

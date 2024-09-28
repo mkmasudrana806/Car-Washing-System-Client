@@ -65,6 +65,8 @@ const baseApi = createApi({
     "reviews",
     "review",
     "bookings",
+    "slots",
+    "slot",
   ],
   endpoints: () => ({}),
 });
