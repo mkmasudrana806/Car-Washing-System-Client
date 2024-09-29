@@ -22,7 +22,7 @@ const BookingPage = () => {
   );
   const { data: userProfile } = useGetUserProfileQuery(undefined);
   const dispatch = useAppDispatch();
-  const user = useAppSelector((state) => state.user.profile);
+  const user = useAppSelector((state) => state.users.profile);
   const [makeAnBooking] = useMakeAnBookingMutation();
 
   // react
@@ -37,11 +37,11 @@ const BookingPage = () => {
           name: `${user?.name?.firstName} ${user?.name?.lastName} ( ${user?.name?.middleName} )`,
           email: user?.email,
           selectedTime: `${currentBooking?.slot?.startTime} - ${currentBooking?.slot?.endTime}`,
-          vehicleType: "car",
-          vehicleBrand: "car",
-          vehicleModel: "car",
-          manufacturingYear: "324234",
-          registrationPlate: "car",
+          vehicleType: "",
+          vehicleBrand: "",
+          vehicleModel: "",
+          manufacturingYear: "",
+          registrationPlate: "",
         });
       }
     }

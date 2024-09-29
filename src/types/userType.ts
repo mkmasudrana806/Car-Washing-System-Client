@@ -6,6 +6,8 @@ export type TUserName = {
 
 // user type
 export type TUser = {
+  key: string;
+  _id: string;
   name: TUserName;
   email: string;
   password: string;
@@ -18,4 +20,6 @@ export type TUser = {
   status: "active" | "blocked";
   profileImg?: string;
   isDeleted: boolean;
+  createdAt: string;
+  updatedAt: string;
 };

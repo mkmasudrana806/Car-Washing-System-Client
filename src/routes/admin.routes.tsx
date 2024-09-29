@@ -1,6 +1,8 @@
 import AdminDashboard from "../pages/admin/AdminDashboard";
 import ServiceManagement from "../pages/admin/ServiceManagement";
 import SlotsManagement from "../pages/admin/SlotsManagement";
+import UserBookings from "../pages/admin/UserBookings";
+import UsersManagement from "../pages/admin/UsersManagement";
 
 // common admin paths
 export const adminPaths = [
@@ -23,5 +25,16 @@ export const adminPaths = [
     name: "Slots",
     path: "slots",
     element: <SlotsManagement />,
+  },
+  {
+    name: "Bookings",
+    path: "bookings",
+    element: <UserBookings />,
+  },
+
+  {
+    name: "Users",
+    path: "users",
+    element: <UsersManagement />,
   },
 ];

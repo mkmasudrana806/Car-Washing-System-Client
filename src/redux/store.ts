@@ -32,7 +32,7 @@ const store = configureStore({
   reducer: {
     [baseApi.reducerPath]: baseApi.reducer,
     auth: persistedReducer,
-    user: userSlice,
+    users: userSlice,
     filters: filterSlice,
     reviews: reviewsSlice,
     bookings: bookingSlice,

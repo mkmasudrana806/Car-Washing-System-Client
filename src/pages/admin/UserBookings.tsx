@@ -13,8 +13,8 @@ import Highlighter from "react-highlight-words";
 import { SearchOutlined } from "@ant-design/icons";
 import { useMediaQuery } from "react-responsive";
 
-import { TAllBookings } from "../../types/bookingsType";
-import isSameDate from "../../utils/isSameDate";
+import { TBooking } from "../../types/bookingsType";
+import { useLoadAllBookingsQuery } from "../../redux/features/bookings/bookingApi";
 
 // data type for the table
 interface DataType {
@@ -30,11 +30,10 @@ interface DataType {
 
 type DataIndex = keyof DataType;
 
-type Props = {
-  bookings: TAllBookings[];
-};
 // ----------- bookings component
-const Bookings: React.FC<Props> = ({ bookings }) => {
+const UserBookings = () => {
+  // redux
+  const { data: bookings } = useLoadAllBookingsQuery({});
   // react
   const [searchText, setSearchText] = useState("");
   const [searchedColumn, setSearchedColumn] = useState("");
@@ -43,13 +42,9 @@ const Bookings: React.FC<Props> = ({ bookings }) => {
   // get the media query breakpoints
   const isMobileView = useMediaQuery({ query: "(max-width: 600px)" });
 
-  // Filter out bookings with the current date
-  const filteredBookings = bookings?.filter((booking) =>
-    isSameDate(booking.date)
-  );
-
-  // -------- data sources
-  const dataSource: DataType[] = filteredBookings?.map((booking) => ({
+  console.log("bookings: ", bookings?.data);
+  // data sources
+  const dataSource: DataType[] = bookings?.data?.map((booking: TBooking) => ({
     key: booking._id,
     serviceName: booking.service.name,
     servicePrice: booking.service.price,
@@ -227,4 +222,4 @@ const Bookings: React.FC<Props> = ({ bookings }) => {
   );
 };
 
-export default Bookings;
+export default UserBookings;

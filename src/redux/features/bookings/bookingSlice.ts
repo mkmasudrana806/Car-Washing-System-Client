@@ -32,8 +32,6 @@ const bookingSlice = createSlice({
 
     // set booking to store
     setBookingToStore: (state, action) => {
-      console.log("action payload: " + action.payload);
-
       state.userBookings?.push(action.payload);
     },
   },

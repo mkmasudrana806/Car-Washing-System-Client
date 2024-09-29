@@ -23,7 +23,7 @@ const ShowServiceDetails = () => {
     }
   }, [showServiceData, form]);
 
-  console.log(showServiceData);
+ 
   return (
     <div>
       <Timestamp>

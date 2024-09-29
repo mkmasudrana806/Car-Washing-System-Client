@@ -31,9 +31,10 @@ type TVehicle =
   | "tractor";
 
 export type TBooking = {
-  user: string;
-  service: string;
-  slot: string;
+  _id: string;
+  user: TUser;
+  service: TService;
+  slot: TSlot;
   vehicleInfo: TVehicleInfo;
   date: Date;
   paymentId: string;
