@@ -29,7 +29,7 @@ const ShowUserDetails = () => {
         address: showUserData?.address || "N/A",
         role: showUserData?.role,
         status: showUserData?.status,
-        profileImgUrl: showUserData?.profileImg || "N/A",
+        profileImgUrl: showUserData?.profileImgUrl || "N/A",
       });
     }
   }, [showUserData, form]);

@@ -37,6 +37,7 @@ export type TBooking = {
   slot: TSlot;
   vehicleInfo: TVehicleInfo;
   date: Date;
+  
   paymentId: string;
   isDeleted: boolean;
 };

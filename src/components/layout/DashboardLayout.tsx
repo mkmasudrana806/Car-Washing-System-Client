@@ -1,4 +1,4 @@
-import { Layout } from "antd";
+import { FloatButton, Layout, Tooltip } from "antd";
 import { Outlet } from "react-router-dom";
 import Sidebar from "./Sidebar";
 import HeaderComponent from "../header/HeaderComponent";
@@ -21,6 +21,10 @@ const DashboardLayout = () => {
           <Outlet />
         </Content>
       </Layout>
+      {/* scroll bottom to top float button  */}
+      <Tooltip title="Scroll to top">
+        <FloatButton.BackTop />
+      </Tooltip>
     </MainLayout>
   );
 };

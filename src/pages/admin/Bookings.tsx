@@ -14,7 +14,6 @@ import { SearchOutlined } from "@ant-design/icons";
 import { useMediaQuery } from "react-responsive";
 
 import { TAllBookings } from "../../types/bookingsType";
-import isSameDate from "../../utils/isSameDate";
 
 // data type for the table
 interface DataType {
@@ -23,7 +22,6 @@ interface DataType {
   servicePrice: number;
   slotStartTime: string;
   slotEndTime: string;
-  userName: string;
   email: string;
   date: string;
 }
@@ -43,19 +41,13 @@ const Bookings: React.FC<Props> = ({ bookings }) => {
   // get the media query breakpoints
   const isMobileView = useMediaQuery({ query: "(max-width: 600px)" });
 
-  // Filter out bookings with the current date
-  const filteredBookings = bookings?.filter((booking) =>
-    isSameDate(booking.date)
-  );
-
   // -------- data sources
-  const dataSource: DataType[] = filteredBookings?.map((booking) => ({
+  const dataSource: DataType[] = bookings?.map((booking) => ({
     key: booking._id,
     serviceName: booking.service.name,
     servicePrice: booking.service.price,
     slotStartTime: booking.slot.startTime,
     slotEndTime: booking.slot.endTime,
-    userName: `${booking.user.name.firstName} ${booking.user.name.middleName} ${booking.user.name.lastName}`,
     email: booking.user.email,
     date: new Date(booking.date).toLocaleString(),
   }));

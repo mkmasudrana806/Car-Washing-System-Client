@@ -78,26 +78,11 @@ const ServiceCardContainer = styled.div`
     }
     .service-cart-footer {
       position: absolute;
-      width: 93%;
+      width: 95%;
       bottom: 10px;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      .details {
-        width: 35px;
-        height: 35px;
-        border-radius: 50%;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px,
-          rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
-        cursor: pointer;
-        &:hover {
-          border: 1px solid tomato;
-          color: tomato;
-        }
-      }
     }
   }
 `;

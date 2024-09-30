@@ -1,6 +1,7 @@
 import PaymentFaildMsg from "../components/messages/PaymentFaildMsg";
 import PurchaseSuccessMessage from "../components/messages/PurchaseSuccessMessage";
 import BookingPage from "../pages/user/BookingPage";
+import UpcommingBookings from "../pages/user/UpcommingBookings";
 import UserDashboard from "../pages/user/UserDashboard";
 
 // common user paths
@@ -16,23 +17,13 @@ export const userPaths = [
     element: <UserDashboard />,
   },
   {
-    path: "booking",
-    element: <BookingPage />,
+    name: "Upcomming Bookings",
+    path: "upcomming-bookings",
+    element: <UpcommingBookings />,
   },
   {
-    name: "Orders Management",
-    children: [
-      {
-        name: "My Orders",
-        path: "my-orders",
-        element: <h1>My Orders</h1>,
-      },
-      {
-        name: "Bookings",
-        path: "bookings",
-        element: <h1>Booking</h1>,
-      },
-    ],
+    path: "booking",
+    element: <BookingPage />,
   },
   {
     path: "purchase-success",

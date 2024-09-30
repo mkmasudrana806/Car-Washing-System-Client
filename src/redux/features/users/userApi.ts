@@ -9,6 +9,7 @@ const userApi = baseApi.injectEndpoints({
           url: "/users/getMe",
         };
       },
+      providesTags: (result) => [{ type: "user", id: result?.data?._id }],
     }),
 
     // get all users
@@ -53,6 +54,20 @@ const userApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: (_result, _error, arg) => [{ type: "user", id: arg.id }],
     }),
+
+    // ---------- update single user
+    updateUser: builder.mutation({
+      query: ({ updatedUserData, userId }) => {
+        return {
+          url: `/users/${userId}`,
+          method: "PATCH",
+          body: updatedUserData,
+        };
+      },
+      invalidatesTags: (_result, _error, arg) => [
+        { type: "user", id: arg.userId },
+      ],
+    }),
   }),
 });
 
@@ -61,5 +76,6 @@ export const {
   useGetAllUsersQuery,
   useToggleUserStatusMutation,
   useToggleUserRoleMutation,
+  useUpdateUserMutation,
   useDeleteUserMutation,
 } = userApi;

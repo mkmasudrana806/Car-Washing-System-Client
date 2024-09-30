@@ -10,6 +10,8 @@ import { Select } from "antd";
 import dayjs from "dayjs";
 import { useState } from "react";
 import getDateFromString from "../../utils/getDateFromValue";
+import isSameDate from "../../utils/isSameDate";
+import { TBooking } from "../../types/bookingsType";
 const { Option } = Select;
 
 const AdminDashboard = () => {
@@ -21,7 +23,7 @@ const AdminDashboard = () => {
   const date = selectedDate;
   const fields =
     "_id,date,user.name,user.email,service.price,service.name,slot.startTime,slot.endTime";
-  const { data: bookings } = useLoadAllBookingsQuery({
+  let { data: bookings } = useLoadAllBookingsQuery({
     limit,
     fields,
     date,
@@ -33,6 +35,11 @@ const AdminDashboard = () => {
   const handleDateRangeChange = (value: string) => {
     setSelectedDate(getDateFromString(value));
   };
+
+  // Filter out bookings with the current date
+  bookings = bookings?.data?.filter((booking: TBooking) =>
+    isSameDate(booking.date)
+  );
 
   return (
     <div>

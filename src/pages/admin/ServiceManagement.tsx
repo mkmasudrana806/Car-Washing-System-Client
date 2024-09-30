@@ -354,7 +354,7 @@ const ServiceManagement = () => {
         open={open}
       >
         <ShowServiceDetails />
-      </Drawer>
+      </Drawer>  
 
       {/* create service modal  */}
       <Modal
