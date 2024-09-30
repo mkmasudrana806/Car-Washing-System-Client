@@ -1,20 +1,17 @@
 import { useEffect } from "react";
+import { useAppSelector } from "../redux/hooks";
 
 // page refresh warning if carts or orders data is exists
 const PageRefreshWarning = () => {
   // const carts = useAppSelector((state) => state.carts.items);
-  // const currentOrder = useAppSelector((state) => state.orders.currentOrder);
-
-  const carts = [];
-  const currentOrder = null;
+  const currentOrder = useAppSelector((state) => state.bookings.currentBooking);
 
   useEffect(() => {
     const handleBeforeUnload = (e: { returnValue: string }) => {
-      // Check if the carts is not empty
-      if (carts?.length !== 0 || currentOrder !== null) {
+      // Check if the currentBooking is not empty
+      if (currentOrder !== null) {
         // Custom warning message
-        const warningMessage =
-          "Your carts is empty. Are you sure you want to leave?";
+        const warningMessage = "Are you sure you want to leave?";
         e.returnValue = warningMessage;
         return warningMessage;
       }

@@ -16,6 +16,7 @@ const Login = () => {
     email: "masud@gmail.com",
     password: "masud",
   };
+
   // redux
   const dispatch = useAppDispatch();
   const { user } = useAppSelector((state) => state.auth);
@@ -28,7 +29,8 @@ const Login = () => {
 
   // get previous path which user comes from
   const from = location?.state?.from || "/";
-
+  const hash = location?.hash || "";
+  from.hash = hash;
   // handle login
   const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -42,7 +44,7 @@ const Login = () => {
         id: toastLoginId,
         duration: 2000,
       });
-      navigate(from, { replace: true });
+      navigate(`${from}${hash}`, { replace: true });
     } catch (error) {
       toast.error("Error while logging..." + error, { id: toastLoginId });
     }

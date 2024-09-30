@@ -37,7 +37,7 @@ const CompanyOverview = () => {
             {/* Box 1 */}
             <div style={{ textAlign: "center" }}>
               <Title level={2}>300+</Title>
-              <Paragraph>Customers</Paragraph>
+              <Paragraph>Users</Paragraph>
             </div>
 
             {/* Box 2 */}
@@ -49,7 +49,7 @@ const CompanyOverview = () => {
             {/* Box 3 */}
             <div style={{ textAlign: "center" }}>
               <Title level={2}>50+</Title>
-              <Paragraph>Locations</Paragraph>
+              <Paragraph>Reviews</Paragraph>
             </div>
           </div>
         </Col>

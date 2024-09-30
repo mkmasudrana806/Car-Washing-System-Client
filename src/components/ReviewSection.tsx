@@ -1,42 +1,76 @@
 import React, { useState } from "react";
-import { Button, Input, Rate, Space, Card } from "antd";
+import { Button, Input, Rate, Space, Card, message } from "antd";
 import styled from "styled-components";
 import Title from "antd/es/typography/Title";
+import { useAppSelector } from "../redux/hooks";
+import { NavLink, useLocation, useNavigate } from "react-router-dom";
+import {
+  useCreateReviewMutation,
+  useGetAllReviewsQuery,
+} from "../redux/features/reviews/reviewsApi";
+import showNotification from "../utils/openNotification";
+import { TReview } from "../types/reviewType";
+import dayjs from "dayjs";
 const { TextArea } = Input;
 
-interface Review {
-  user: string;
-  rating: number;
-  feedback: string;
-}
-
 const OverviewSection: React.FC = () => {
-  const [isLoggedIn, setIsLoggedIn] = useState(false); // simulate login status
+  // --------- redux
+  const isUserExist = useAppSelector((state) => state.auth.token);
+  const [createReview] = useCreateReviewMutation();
+  const { data: reviews } = useGetAllReviewsQuery({});
+  const totalRating = reviews?.data.reduce(
+    (acc: number, review: TReview) => acc + review?.rating,
+    0
+  );
+  const averageRating = (totalRating / reviews?.data?.length).toFixed(2);
+
+  // ---------- react
   const [rating, setRating] = useState<number | undefined>(5);
   const [feedback, setFeedback] = useState("");
-
+  const location = useLocation();
+  const navigate = useNavigate();
   const [showOverview, setShowOverview] = useState(false);
-  const [latestReviews, setLatestReviews] = useState<Review[]>([]);
 
-  // Simulate a login
+  // --------- get latest two reviews
+  const getLatestTwoReviews = reviews?.data
+    .sort(
+      (a: TReview, b: TReview) =>
+        dayjs(b.createdAt).valueOf() - dayjs(a.createdAt).valueOf()
+    )
+    .slice(0, 2);
+
+  // -------- Simulate a login
   const handleLogin = () => {
-    setIsLoggedIn(true);
+    navigate("/login#review-section", {
+      state: { from: location },
+    });
   };
 
-  const handleRatingSubmit = () => {
+  // --------- handle submit rating
+  const handleRatingSubmit = async () => {
+    let result: any = null;
     if (rating && feedback) {
-      const newReview: Review = { user: "User123", rating, feedback };
-      setLatestReviews([...latestReviews, newReview]);
-      setShowOverview(true);
-      // Handle the rating submission
-      console.log("Rating submitted:", rating, feedback);
+      result = await createReview({ rating, comment: feedback });
+      if (result?.data) {
+        console.log(result);
+        message.success(result?.data?.message);
+        setShowOverview(true);
+      } else if (result?.error) {
+        showNotification(
+          "error",
+          "Review Submission failed",
+          result?.error?.data?.message
+        );
+      }
+      setRating(1);
+      setFeedback("");
     }
   };
 
   return (
-    <ReviewContainer>
+    <ReviewContainer id="review-section">
       {/* Overlay when user is not logged in */}
-      {!isLoggedIn && (
+      {!isUserExist && (
         <LoggedInBtn>
           <Button style={{ pointerEvents: "auto" }} onClick={handleLogin}>
             Log in to rate
@@ -51,7 +85,7 @@ const OverviewSection: React.FC = () => {
             <Rate
               onChange={setRating}
               value={rating}
-              disabled={!isLoggedIn} // Disable rating if not logged in
+              disabled={!isUserExist} // Disable rating if not logged in
             />
           </div>
           <TextArea
@@ -59,13 +93,13 @@ const OverviewSection: React.FC = () => {
             placeholder="Please leave your feedback"
             value={feedback}
             onChange={(e) => setFeedback(e.target.value)}
-            disabled={!isLoggedIn} // Disable text area if not logged in
+            disabled={!isUserExist} // Disable text area if not logged in
           />
           <div style={{ marginTop: "16px", textAlign: "right" }}>
             <Button
               type="primary"
               onClick={handleRatingSubmit}
-              disabled={!rating || !feedback || !isLoggedIn} // Disable button if not logged in
+              disabled={!rating || !feedback || !isUserExist} // Disable button if not logged in
               style={{ zIndex: 2 }}
             >
               Submit Rating
@@ -76,17 +110,34 @@ const OverviewSection: React.FC = () => {
       {/* Second Component: Site Overall Rating & Latest Reviews */}
       {showOverview && (
         <div>
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+            }}
+          >
+            <h1 style={{ fontSize: "1.2rem", marginBottom: "16px" }}>
+              See all reviews
+            </h1>
+            <Button>
+              <NavLink to={"/reviews"}>View all</NavLink>
+            </Button>
+          </div>
           <Card title="Site Overall Rating">
-            <Title level={4}>Overall Rating: 4.5/5</Title>
-            <p>Based on 200 reviews</p>
+            <Title level={4}>Overall Rating: {averageRating}/5</Title>
+            <p>Based on {reviews?.data?.length} reviews</p>
             <div style={{ marginTop: "24px" }}>
               <Title level={5}>Latest Reviews</Title>
               <Space direction="vertical" style={{ width: "100%" }}>
-                {latestReviews.slice(-2).map((review, index) => (
-                  <Card key={index}>
-                    <p>{review.user}</p>
-                    <Rate disabled defaultValue={review.rating} />
-                    <p>{review.feedback}</p>
+                {getLatestTwoReviews?.map((review: TReview) => (
+                  <Card key={review?._id}>
+                    <p>
+                      {review?.userId?.name?.firstName}{" "}
+                      {review?.userId?.name?.lastName}
+                    </p>
+                    <Rate disabled defaultValue={review?.rating} />
+                    <p>{review?.comment}</p>
                   </Card>
                 ))}
               </Space>
