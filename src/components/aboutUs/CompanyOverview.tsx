@@ -1,10 +1,18 @@
 import { Row, Col, Typography } from "antd";
 import styled from "styled-components";
 import companyImg from "../../assets/images/companyTeam.jpg";
+import { useGetAllUsersQuery } from "../../redux/features/users/userApi";
+import { useLoadAllServicesQuery } from "../../redux/features/services/serviceApi";
+import { useGetAllReviewsQuery } from "../../redux/features/reviews/reviewsApi";
 
 const { Title, Paragraph } = Typography;
 
 const CompanyOverview = () => {
+  // ------------ redux
+  const { data: users } = useGetAllUsersQuery({});
+  const { data: services } = useLoadAllServicesQuery({});
+  const { data: reviews } = useGetAllReviewsQuery({});
+
   return (
     <HeroSection>
       <Row gutter={32} align="middle">
@@ -36,19 +44,19 @@ const CompanyOverview = () => {
           <div className="stats-boxes">
             {/* Box 1 */}
             <div style={{ textAlign: "center" }}>
-              <Title level={2}>300+</Title>
+              <Title level={2}>{users?.data?.length}</Title>
               <Paragraph>Users</Paragraph>
             </div>
 
             {/* Box 2 */}
             <div style={{ textAlign: "center" }}>
-              <Title level={2}>10+</Title>
+              <Title level={2}>{services?.data?.length}</Title>
               <Paragraph>Services</Paragraph>
             </div>
 
             {/* Box 3 */}
             <div style={{ textAlign: "center" }}>
-              <Title level={2}>50+</Title>
+              <Title level={2}>{reviews?.data?.length}</Title>
               <Paragraph>Reviews</Paragraph>
             </div>
           </div>

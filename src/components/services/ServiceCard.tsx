@@ -1,12 +1,31 @@
-import { ClockCircleOutlined } from "@ant-design/icons";
+import { ClockCircleOutlined, PlusSquareOutlined } from "@ant-design/icons";
 import { NavLink } from "react-router-dom";
 import styled from "styled-components";
 import { TService } from "../../types/serviceTypes";
-import { Tag } from "antd";
+import { Button, Modal, Tag } from "antd";
+import { useAppDispatch, useAppSelector } from "../../redux/hooks";
+import {
+  clearCompareList,
+  toggleCompare,
+} from "../../redux/features/services/ServiceSlice";
+import CompareServices from "../CompareServices";
 
 const ServiceCard = ({ service }: { service: TService }) => {
   const { _id, description, duration, name, price, featured, serviceImgUrl } =
     service;
+  const dispatch = useAppDispatch();
+  const compareList = useAppSelector((state) => state.services.compareList);
+
+  // --------- handle add to compare
+  const handleAddToCompare = (service: TService) => {
+    dispatch(toggleCompare(service));
+  };
+
+  // ---------- handle cancel modal
+  const handleCancel = () => {
+    dispatch(clearCompareList());
+  };
+
   return (
     <ServiceCardContainer className="service">
       <div className="img-container">
@@ -19,16 +38,45 @@ const ServiceCard = ({ service }: { service: TService }) => {
         <NavLink to={`/services/${_id}`} className="title">
           {description}
         </NavLink>
+
         <div className="service-cart-footer">
-          <h1 style={{ color: "tomato", marginBottom: "4px" }}>${price}</h1>
-          <Tag icon={<ClockCircleOutlined />} color="default">
-            {duration} min
-          </Tag>
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+              marginBottom: "8px",
+            }}
+          >
+            <h1 style={{ color: "tomato", marginBottom: "4px" }}>${price}</h1>
+            <Tag icon={<ClockCircleOutlined />} color="default">
+              {duration} min
+            </Tag>
+          </div>
+          <Button
+            onClick={() => handleAddToCompare(service)}
+            style={{ width: "98%" }}
+            icon={<PlusSquareOutlined />}
+            block
+          >
+            Add to compare
+          </Button>
         </div>
       </div>
       {featured && (
         <FeaturedButton className="featured-btn">Featured</FeaturedButton>
       )}
+
+      {/* open compare modal when two service is selected  */}
+      <Modal
+        title="Comparision between two services"
+        open={compareList?.length > 1}
+        onCancel={handleCancel}
+        footer={null}
+        width={1000}
+      >
+        <CompareServices />
+      </Modal>
     </ServiceCardContainer>
   );
 };
@@ -40,7 +88,7 @@ const ServiceCardContainer = styled.div`
   position: relative;
   max-width: 300px;
   min-width: 250px;
-  height: 360px;
+  height: 400px;
   box-shadow: rgba(0, 0, 0, 0.05) 0px 0px 0px 1px;
   .img-container {
     width: 100%;
@@ -80,9 +128,6 @@ const ServiceCardContainer = styled.div`
       position: absolute;
       width: 95%;
       bottom: 10px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
     }
   }
 `;

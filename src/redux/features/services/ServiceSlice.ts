@@ -6,6 +6,7 @@ export type TServices = {
   items: TService[];
   editServiceData: TService | null;
   showServiceData: TService | null;
+  compareList: TService[];
 };
 
 // initialState
@@ -13,6 +14,7 @@ const initialState: TServices = {
   items: [],
   editServiceData: null,
   showServiceData: null,
+  compareList: [],
 };
 
 // Services slice
@@ -60,6 +62,27 @@ const servicesSlice = createSlice({
     clearShowServiceData: (state) => {
       state.showServiceData = null;
     },
+    // toggle compare lists
+    toggleCompare: (state, action) => {
+      const service = action.payload;
+      // Check if the service is already in the compare list
+      const isServiceInCompare = state.compareList.some(
+        (item) => item._id === service._id
+      );
+
+      if (isServiceInCompare) {
+        // If service is in the compare list, remove it
+        state.compareList = state.compareList.filter(
+          (item) => item._id !== service._id
+        );
+      } else if (state.compareList.length < 3) {
+        state.compareList.push(service);
+      }
+    },
+    // clear compare lists
+    clearCompareList: (state) => {
+      state.compareList = [];
+    },
   },
 });
 
@@ -71,6 +94,8 @@ export const {
   clearEditServiceData,
   setShowServiceData,
   clearShowServiceData,
+  toggleCompare,
+  clearCompareList,
 } = servicesSlice.actions;
 
 export default servicesSlice.reducer;

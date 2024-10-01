@@ -30,7 +30,9 @@ const Login = () => {
   // get previous path which user comes from
   const from = location?.state?.from || "/";
   const hash = location?.hash || "";
-  from.hash = hash;
+  if (hash) {
+    from.hash = hash;
+  }
   // handle login
   const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
