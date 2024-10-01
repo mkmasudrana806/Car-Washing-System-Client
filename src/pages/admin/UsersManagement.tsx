@@ -228,7 +228,6 @@ const UsersManagement = () => {
 
   // ------------ toggle user status
   const toggleUserStatusHandler = async (id: string, status: string) => {
-    console.log(typeof id);
     const result: any = await toggleUserStatus({ id, status });
     if (result?.data) {
       message.success(result.data?.message);
@@ -239,7 +238,6 @@ const UsersManagement = () => {
 
   // ------------ toggle user role
   const toggleUserRoleHandler = async (id: string, role: string) => {
-    console.log(typeof id);
     const result: any = await toggleUserRole({ id, role });
     if (result?.data) {
       message.success(result.data?.message);

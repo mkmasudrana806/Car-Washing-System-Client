@@ -49,7 +49,6 @@ const UpdateUser: React.FC<Props> = ({ handleCloseModal }) => {
 
   // ----------- add user
   const onFinish = async (values: TUser) => {
-    console.log("values: ", values);
     const updatedUserData = {
       name: {
         firstName: values?.firstName,

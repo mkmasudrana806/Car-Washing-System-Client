@@ -58,6 +58,7 @@ const HeaderComponent = () => {
         isDrawerVisible={isDrawerVisible}
         showProfileDrawer={showProfileDrawer}
       />
+      
       {/* show user profile drawer  */}
       <UserProfileDrawer
         closeProfileDrawer={closeProfileDrawer}

@@ -42,7 +42,6 @@ const UserBookings = () => {
   // get the media query breakpoints
   const isMobileView = useMediaQuery({ query: "(max-width: 600px)" });
 
-  console.log("bookings: ", bookings?.data);
   // data sources
   const dataSource: DataType[] = bookings?.data?.map((booking: TBooking) => ({
     key: booking._id,

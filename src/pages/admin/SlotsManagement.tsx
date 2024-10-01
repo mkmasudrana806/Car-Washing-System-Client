@@ -234,7 +234,6 @@ const SlotsManagement = () => {
       message.error("Slot is booked, delete not allowed");
     } else {
       const result = await deleteSlot(slot.key);
-      console.log("after delete slot", result);
       if (result?.data?.success) {
         dispatch(deleteSlotFromStore(slot.key));
         message.success("Slot deleted successfully");
@@ -244,7 +243,6 @@ const SlotsManagement = () => {
 
   // ------------- handle show slot details
   const handleShowSlot = (slot: TSlot) => {
-    console.log("show slot: ", slot);
     setOpen(true);
     dispatch(setShowSlotData(slot));
   };

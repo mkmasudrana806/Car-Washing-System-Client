@@ -1,7 +1,8 @@
 import { Badge, Button, Drawer, Menu } from "antd";
 import { LogoutOutlined, UserOutlined } from "@ant-design/icons";
-import { NavLink } from "react-router-dom";
-import { useAppSelector } from "../../redux/hooks";
+import { NavLink, useNavigate } from "react-router-dom";
+import { useAppDispatch, useAppSelector } from "../../redux/hooks";
+import { logout } from "../../redux/features/auth/authSlice";
 type onCloseType = (
   e: React.MouseEvent<Element, MouseEvent> | React.KeyboardEvent<Element>
 ) => void;
@@ -14,14 +15,24 @@ type THeaderNavlinkDrawer = {
   showProfileDrawer: onClickType;
 };
 
+// ------------- header navlink drawer on small devices
 const HeaderNavlinkDrawer = ({
   isDrawerVisible,
   closeDrawer,
   showProfileDrawer,
 }: THeaderNavlinkDrawer) => {
   // redux
+  const dispatch = useAppDispatch();
   const { user } = useAppSelector((state) => state.auth);
 
+  // react
+  const navigate = useNavigate();
+  // handle logout user
+
+  const handleLogout = () => {
+    dispatch(logout());
+    navigate("/");
+  };
   return (
     <Drawer
       zIndex={5}
@@ -55,7 +66,9 @@ const HeaderNavlinkDrawer = ({
         {user?.role ? (
           <>
             <Menu.Item key="logout">
-              <Button icon={<LogoutOutlined />}>Logout</Button>
+              <Button onClick={handleLogout} icon={<LogoutOutlined />}>
+                Logout
+              </Button>
             </Menu.Item>
 
             <Menu.Item key="user-profile">

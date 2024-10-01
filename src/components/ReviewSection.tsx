@@ -52,7 +52,6 @@ const OverviewSection: React.FC = () => {
     if (rating && feedback) {
       result = await createReview({ rating, comment: feedback });
       if (result?.data) {
-        console.log(result);
         message.success(result?.data?.message);
         setShowOverview(true);
       } else if (result?.error) {

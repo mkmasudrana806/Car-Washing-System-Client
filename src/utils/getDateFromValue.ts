@@ -31,8 +31,6 @@ const getDateFromString = (value: string) => {
     default:
       formattedDate = null;
   }
-
-  console.log("Formatted Date before set into state: ", formattedDate);
   return formattedDate;
 };
 
