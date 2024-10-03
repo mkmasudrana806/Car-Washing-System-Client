@@ -4,7 +4,6 @@ import "../../styles/publicLayout.css";
 import { Outlet } from "react-router-dom";
 import Footer from "../Footer";
 import ScrollToTop from "../../utils/ScrollToTop";
-import PageRefreshWarning from "../../utils/PageRefreshWarning";
 import HeaderComponent from "../header/HeaderComponent";
 import ScrollToSepcificSection from "../../utils/ScrollToSepcificSection";
 
@@ -13,8 +12,6 @@ const { Content } = Layout;
 const PublicLayout = () => {
   return (
     <>
-      {/* monitor page refresh globally */}
-      <PageRefreshWarning />
       {/* globally handle page scroll to top  */}
       <ScrollToTop />
 

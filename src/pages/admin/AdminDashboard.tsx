@@ -20,13 +20,12 @@ const AdminDashboard = () => {
   );
   // redux
   const limit = 25;
-  const date = selectedDate;
   const fields =
     "_id,date,user.name,user.email,service.price,service.name,slot.startTime,slot.endTime";
-  let { data: bookings } = useLoadAllBookingsQuery({
+  const { data: bookings } = useLoadAllBookingsQuery({
     limit,
     fields,
-    date,
+    date: selectedDate,
   });
   const { data: services } = useLoadAllServicesQuery({});
   const { data: users } = useGetAllUsersQuery(undefined);
@@ -37,7 +36,7 @@ const AdminDashboard = () => {
   };
 
   // Filter out bookings with the current date
-  bookings = bookings?.data?.filter((booking: TBooking) =>
+  const todaysBookings = bookings?.data?.filter((booking: TBooking) =>
     isSameDate(booking.date)
   );
 
@@ -101,7 +100,7 @@ const AdminDashboard = () => {
       <h1 style={{ fontSize: "1.5rem", marginTop: "24px" }}>
         Today's Bookings
       </h1>
-      <Bookings bookings={bookings?.data} />
+      <Bookings bookings={todaysBookings} />
     </div>
   );
 };
